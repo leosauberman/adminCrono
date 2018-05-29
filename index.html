@@ -1,0 +1,28 @@
+<html ng-app="cadastro" lang="pt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="controller.js"></script>
+</head>
+<body>
+    <div ng-controller="controller">
+        <form>
+            <input type="number" ng-model="nCategories" min="1" max="10"/> categoria(s) <br>
+            <input type="submit" value="OK" ng-click="showCategories()"/>
+        </form>
+        <table>
+            <tr>
+                <th><input type="text" data-ng-repeat="categorie in categories" placeholder="Categoria {{categorie}}"/></th>
+            </tr>
+            <td data-ng-repeat="task in tasks">
+                <input type="text" placeholder="Tarefa {{task}}"/>
+                <input type="submit" value="&#9166;">
+            </td>
+        </table> 
+            
+
+    </div>
+    
+</body>
+</html>
