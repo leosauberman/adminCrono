@@ -1,28 +1,46 @@
 <html ng-app="cadastro" lang="pt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Cronograma</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="controller.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
-<body>
-    <div ng-controller="controller">
-        <form>
-            <input type="number" ng-model="nCategories" min="1" max="10"/> categoria(s) <br>
-            <input type="submit" value="OK" ng-click="showCategories()"/>
-        </form>
-        <table>
-            <tr>
-                <th><input type="text" data-ng-repeat="categorie in categories" placeholder="Categoria {{categorie}}"/></th>
-            </tr>
-            <td data-ng-repeat="task in tasks">
-                <input type="text" placeholder="Tarefa {{task}}"/>
-                <input type="submit" value="&#9166;">
-            </td>
-        </table> 
-            
+<body ng-controller="controller">
+    <form>
+        <!-- <label>Adicionar categoria:</label><input ng-model="categoryText"/>
+        <button ng-click="addCategory()">Add</button> -->
+        <br>
+        <label>Tarefa:</label><input ng-model="taskText">
+        <label>Data de Entrega:</label> <input type="date" ng-model="dueDate">
+        <label>Categoria:</label><select ng-model="category">
+            <option ng-repeat="cat in catOptions">{{cat}}</option>
+        </select>
+        <button ng-click="addItem()">Add</button>
+        <p><strong>{{errorText}}</strong></p>
+    </form>
 
-    </div>
-    
+    <table>
+        <thead>
+            <th ng-click="sortData('category')">Categoria <div ng-class="getSortClass('category')"></div></th>
+            <th ng-click="sortData('text')">Tarefa <div ng-class="getSortClass('text')"></div></th>
+            <th ng-click="sortData('dueDate')">Data de Entrega <div ng-class="getSortClass('dueDate')"></div></th>
+            <th>----</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="task in tasks | orderBy: sortColumn : reverseSort">
+                <th ng-style="task.done ? style : {}" class="label">{{task.category}}</th><br>
+                <td ng-style="task.done ? style : {}" align="center">{{task.text}}</td>
+                <td ng-style="task.done ? style : {}" align="center">{{task.dueDate | date: 'd/MM/yy'}}</td>
+                <td align="center">
+                    <span class="fas fa-check check" ng-style="task.done ? style : {}" ng-click="check(task .index)" ng-model="task.done"></span>
+                    <span class="fas fa-trash remove" ng-click="removeItem(task.index)"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="save" ng-click="saveJson()">Save</button>
+
 </body>
 </html>
